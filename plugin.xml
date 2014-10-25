@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+-->
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="org.apache.cordova.appsflyer"
+        version="0.0.1">
+    <name>AppsFlyer</name>
+    <description>Cordova AppsFlyer Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,appsflyer</keywords>
+    <repo>https://github.com/zmagyar/AppsFlyerCordova.git</repo>
+    <engines>
+        <engine name="cordova" version=">=3.3.0"/>
+    </engines>
+
+    <!-- android -->
+    <platform name="android">
+        <js-module src="www/appsflyer.js" name="appsflyer">
+            <clobbers target="window.plugins.appsFlyer" />
+        </js-module>
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="AppsFlyerPlugin">
+                <param name="android-package" value="org.apache.cordova.appsflyer.AppsFlyerPlugin"/>
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <receiver android:name="com.appsflyer.MultipleInstallBroadcastReceiver" android:exported="true">
+                <intent-filter>
+                    <action android:name="com.android.vending.INSTALL_REFERRER" />
+                </intent-filter>
+            </receiver>
+        </config-file>
+
+        <source-file src="platform/android/org/apache/cordova/appsflyer/AppsFlyerPlugin.java" target-dir="src/org/apache/cordova/appsflyer" />
+        <source-file src="platform/android/libs/AF-Android-SDK-v1.3.20.jar" target-dir="libs"/>
+
+        <dependency id="com.google.playservices" url="https://github.com/MobileChromeApps/google-play-services" commit="efca392eab83df93085136e0cd7d86450fd58609" />
+    </platform>
+
+    <!-- ios -->
+    <platform name="ios">
+        <js-module src="www/appsflyer.js" name="appsflyer">
+            <clobbers target="window.plugins.appsFlyer" />
+        </js-module>
+        <config-file target="config.xml" parent="/*">
+            <feature name="AppsFlyerPlugin">
+                <param name="ios-package" value="AppsFlyerPlugin" />
+            </feature>
+        </config-file>
+
+        <header-file src="platform/ios/AppsFlyerPlugin.h" />
+        <header-file src="platform/ios/AppsFlyerTracker.h" />
+        <source-file src="platform/ios/AppsFlyerPlugin.m" />
+        <source-file src="platform/ios/libAppsFlyerLib.a" compiler-flags="-lAppsFlyerLib" framework="true" />
+    </platform>
+</plugin>
