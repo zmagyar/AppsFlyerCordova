@@ -3,30 +3,40 @@
 	AppsFlyer = function () {
 	};
 
-	AppsFlyer.prototype.notifyAppID = function (appId, devKey, eventName, eventValue) {
-		var options;
-		options = {};
-		options.appId = appId;
-		options.devKey = devKey;
-		options.eventName = eventName;
-		options.eventValue = eventValue;
-    	cordova.exec(null, null, "AppsFlyerPlugin", "notifyAppID", [options.appId,options.devKey,options.eventName,options.eventValue]);
+	AppsFlyer.prototype.initSdk = function (args) {
+    	cordova.exec(null, null, "AppsFlyerPlugin", "initSdk", args);
 	};
 	
-	AppsFlyer.prototype.setCurrencyId = function (currencyId) {
-		var options;
-		options = {};
-		options.currencyId = currencyId;
-    	cordova.exec(null, null, "AppsFlyerPlugin", "setCurrencyId", [options.currencyId]);
+	AppsFlyer.prototype.setCurrencyCode = function (currencyId) {
+    	cordova.exec(null, null, "AppsFlyerPlugin", "setCurrencyCode", [currencyId]);
 	};
 	
-	AppsFlyer.prototype.setCustomeUserId = function (customeUserId) {
-		var options;
-		options = {};
-		options.customeUserId = customeUserId;
-    	cordova.exec(null, null, "AppsFlyerPlugin", "setCustomeUserId", [options.customeUserId]);
+	AppsFlyer.prototype.setAppUserId = function (customerUserId) {
+    	cordova.exec(null, null, "AppsFlyerPlugin", "setAppUserId", [customerUserId]);
+	};
+
+	AppsFlyer.prototype.getAppsFlyerUID = function (callbackFn) {
+        cordova.exec(function(result){
+            callbackFn(result);
+        }, null,
+           "AppsFlyerPlugin",
+           "getAppsFlyerUID",
+        []);
 	};
 	
+	AppsFlyer.prototype.sendTrackingWithEvent = function(eventName, eventValue) {
+    	cordova.exec(null, null, "AppsFlyerPlugin", "sendTrackingWithEvent", [eventName,eventValue]);
+	};
+
+	AppsFlyer.prototype.onInstallConversionDataLoaded = function(conversionData) {
+        var data = conversionData,
+            event;
+        if (typeof data === "string") {
+            data = JSON.parse(conversionData);
+        }
+		event = new CustomEvent('onInstallConversionDataLoaded', {'detail': data});
+		global.document.dispatchEvent(event);
+	};
 
 	global.cordova.addConstructor(function() {
 		if (!global.Cordova) {
@@ -40,3 +50,17 @@
 		global.plugins.appsFlyer = new AppsFlyer();
 	});
 }(window));
+
+document.addEventListener("deviceready", function(){
+    var args = [];
+    var devKey = "xxXXXXXxXxXXXXxXXxxxx8";  // your AppsFlyer devKey
+    args.push(devKey);
+    var userAgent = window.navigator.userAgent.toLowerCase();
+                          
+    if (/iphone|ipad|ipod/.test( userAgent )) {
+        var appId = "123456789";            // your ios app id in app store
+        args.push(appId);
+    }
+	window.plugins.appsFlyer.initSdk(args);
+}, false);
+

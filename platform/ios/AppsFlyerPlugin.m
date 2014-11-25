@@ -5,72 +5,88 @@
 
 - (CDVPlugin *)initWithWebView:(UIWebView *)theWebView
 {
-	self = (AppsFlyerPlugin *)[super initWithWebView:theWebView];
-	return self;
+    self = (AppsFlyerPlugin *)[super initWithWebView:theWebView];
+    return self;
 }
 
-- (void)notifyAppID:(CDVInvokedUrlCommand*)command
+- (void)initSdk:(CDVInvokedUrlCommand*)command
 {
     if ([command.arguments count] < 2) {
-		return;
-	}
-
-    NSString* appId = [command.arguments objectAtIndex:0];
-    NSString* devKey = [command.arguments objectAtIndex:1];
-    NSString* eventName = [command.arguments objectAtIndex:2];
-    
-   [AppsFlyerTracker sharedTracker].appleAppID = appId;
-
-   [AppsFlyerTracker sharedTracker].appsFlyerDevKey = devKey;
-    
-    //#ifdef CONFIGURATION_Release
-    if ([command.arguments count] == 2 || [eventName isEqual:[NSNull null]]) {
-    	[[AppsFlyerTracker sharedTracker] trackAppLaunch];
-    } else if ([command.arguments count] == 3) {
-    	[[AppsFlyerTracker sharedTracker] trackEvent:[command.arguments objectAtIndex:2] withValue:nil];
-    } else if ([command.arguments count] == 4) {
-    	[[AppsFlyerTracker sharedTracker] trackEvent:[command.arguments objectAtIndex:2] withValue:[command.arguments objectAtIndex:3]];
+        return;
     }
-    //#endif
+    
+    NSString* devKey = [command.arguments objectAtIndex:0];
+    NSString* appId = [command.arguments objectAtIndex:1];
+    
+    
+    [AppsFlyerTracker sharedTracker].appleAppID = appId;
+    [AppsFlyerTracker sharedTracker].appsFlyerDevKey = devKey;
+    [[AppsFlyerTracker sharedTracker] trackAppLaunch];
+    [self performSelector:@selector(initDelegate) withObject:nil afterDelay:7];
 }
 
+- (void) initDelegate{
+    [AppsFlyerTracker sharedTracker].delegate = self;
+}
 
-
-- (void)setCurrencyId:(CDVInvokedUrlCommand*)command
+- (void)setCurrencyCode:(CDVInvokedUrlCommand*)command
 {
     if ([command.arguments count] == 0) {
-		return;
-	}
+        return;
+    }
     
     NSString* currencyId = [command.arguments objectAtIndex:0];
-
-    //#ifdef CONFIGURATION_Release
-    
-    [AppsFlyerTracker sharedTracker].currencyCode = currencyId; 
-    
-    //#endif
+    [AppsFlyerTracker sharedTracker].currencyCode = currencyId;
 }
 
-
-- (void)setCustomeUserId:(CDVInvokedUrlCommand*)command
+- (void)setAppUserId:(CDVInvokedUrlCommand *)command
 {
     if ([command.arguments count] == 0) {
-		return;
-	}
+        return;
+    }
     
-    NSString* customeId = [command.arguments objectAtIndex:0];
-
-    //#ifdef CONFIGURATION_Release
-    
-	[AppsFlyerTracker sharedTracker].customerUserID = customeId;
-    
-    //#endif
+    NSString* userId = [command.arguments objectAtIndex:0];
+    [AppsFlyerTracker sharedTracker].customerUserID  = userId;
 }
 
+- (void)getAppsFlyerUID:(CDVInvokedUrlCommand *)command
+{
+    NSString* userId = [[AppsFlyerTracker sharedTracker] getAppsFlyerUID];
+    CDVPluginResult *pluginResult = [ CDVPluginResult
+                                    resultWithStatus    : CDVCommandStatus_OK
+                                    messageAsString: userId
+                                    ];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
 
+- (void)sendTrackingWithEvent:(CDVInvokedUrlCommand *)command
+{
+    if ([command.arguments count] < 2) {
+        return;
+    }
+    
+    NSString* eventName = [command.arguments objectAtIndex:0];
+    NSString* eventValue = [command.arguments objectAtIndex:1];
+    [[AppsFlyerTracker sharedTracker] trackEvent:eventName withValue:eventValue];
+}
 
+-(void)onConversionDataReceived:(NSDictionary*) installData {
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:installData
+                                            options:0
+                                            error:&error];
+    if (jsonData) {
+        NSString *JSONString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
+        [[super webView] stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"javascript:window.plugins.appsFlyer.onInstallConversionDataLoaded(%@)", JSONString]];
+    } else {
+        NSLog(@"%@",error);
+    }
+}
 
-
-
+-(void)onConversionDataRequestFailure:(NSError *) error {
+    
+    NSLog(@"%@",error);
+    
+}
 
 @end

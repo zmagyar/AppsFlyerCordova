@@ -2,7 +2,7 @@
 //  AppsFlyerTracker.h
 //  AppsFlyerLib
 //
-//  AppsFlyer iOS SDK v2.5.3.10
+//  AppsFlyer iOS SDK v2.5.3.11
 //  22-Feb-2013
 //  Copyright (c) 2013 AppsFlyer Ltd. All rights reserved.
 //
@@ -22,7 +22,7 @@
 @optional
 - (void) onConversionDataReceived:(NSDictionary*) installData;
 - (void) onConversionDataRequestFailure:(NSError *)error;
-- (void) onCurrentAttributionReceived:(NSDictionary*) installData;
+- (void) onAppOpenAttribution:(NSDictionary*) installData;
 @end
 
 @interface AppsFlyerTracker : NSObject<AppsFlyerTrackerDelegate> {
@@ -39,6 +39,8 @@
     BOOL disableAppleAdSupportTracking;
 
     BOOL disableIAdTracking;
+    
+    BOOL isUpdate;
 }
 
 /* In case you use your own user ID in your app, you can set this property to that ID. */
@@ -58,6 +60,12 @@
 
 /* AppsFlyer's SDK send the data to AppsFlyer's servers over HTTPS. You can set the isHTTPS property to NO in order to use regular HTTP. */
 @property BOOL isHTTPS;
+
+/*
+ Use this property to tell AppsFlyer if the current request is a new install or an update of an existing install. This field is used for apps
+ which were published without the AppsFlyer SDK and are adding the SDK on a later update.
+ */
+@property BOOL isUpdate;
 
 /* 
  * AppsFLyer SDK collect Apple's advertisingIdentifier if the AdSupport framework included in the SDK.
@@ -86,11 +94,6 @@
  */
 @property (assign, nonatomic) id<AppsFlyerTrackerDelegate> delegate;
 
-/*
- * This property is used by AppsFlyer's plugins/extensions like Adobe Air, Unity & PhoneGap for internal use. Developers should not use this property in their apps unless using native SDK within such cross platform.
- */
-@property (retain, nonatomic) NSString* sdkExtension;
-
 +(AppsFlyerTracker*) sharedTracker;
 
 /* Track application launch*/
@@ -118,7 +121,7 @@
  * In case you want to use AppsFlyer tracking data in your app you can use the following method set a
  * delegate with callbakc buttons for the tracking data. See AppsFlyerTrackerDelegate above.
  */
-- (void) loadConversionDataWithDelegate:(id<AppsFlyerTrackerDelegate>) delegate;
+- (void) loadConversionDataWithDelegate:(id<AppsFlyerTrackerDelegate>) delegate __attribute__((deprecated));
 
 /*
  * In case you want to track deep linking, call this method from your delegate's openURL method.
