@@ -57,7 +57,7 @@
         <source-file src="platform/android/com/appsflyer/cordova/plugin/AppsFlyerPlugin.java" target-dir="src/com/appsflyer/cordova/plugin" />
         <source-file src="platform/android/libs/AF-Android-SDK-v2.3.1.12.jar" target-dir="libs"/>
 
-        <dependency id="com.google.playservices" url="https://github.com/MobileChromeApps/google-play-services" commit="efca392eab83df93085136e0cd7d86450fd58609" />
+        <dependency id="com.google.playservices" url="https://github.com/MobileChromeApps/google-play-services" />
     </platform>
 
     <!-- ios -->
