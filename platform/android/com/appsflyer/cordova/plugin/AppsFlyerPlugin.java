@@ -1,4 +1,4 @@
-package com.appsflyer.cordova.plugins;
+package com.appsflyer.cordova.plugin;
 
 import java.util.Map;
 import java.util.concurrent.Executors;
