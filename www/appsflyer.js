@@ -1,3 +1,10 @@
+if(!window.CustomEvent) {
+	window.CustomEvent = function(type, config) {
+		var e = document.createEvent("CustomEvent");
+		e.initCustomEvent(type, true, true, config.detail);
+		return e;
+	}
+}
 (function (global) {
 	var AppsFlyer;
 	AppsFlyer = function () {
@@ -55,5 +62,6 @@
 		global.plugins.appsFlyer = new AppsFlyer();
 	});
 }(window));
+
 
 

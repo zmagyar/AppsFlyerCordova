@@ -73,6 +73,11 @@ public class AppsFlyerPlugin extends CordovaPlugin {
 				// TODO Auto-generated method stub
 				
 			}
+			
+			@Override
+			public void onAttributionFailure(String errorMessage) {
+				//Added this to avoid compilation failure
+			}
 
 			@Override
 			public void onInstallConversionDataLoaded(Map<String, String> conversionData) {

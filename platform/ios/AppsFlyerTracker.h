@@ -40,7 +40,6 @@
 
     BOOL disableIAdTracking;
     
-    BOOL isUpdate;
 }
 
 /* In case you use your own user ID in your app, you can set this property to that ID. */
@@ -60,12 +59,6 @@
 
 /* AppsFlyer's SDK send the data to AppsFlyer's servers over HTTPS. You can set the isHTTPS property to NO in order to use regular HTTP. */
 @property BOOL isHTTPS;
-
-/*
- Use this property to tell AppsFlyer if the current request is a new install or an update of an existing install. This field is used for apps
- which were published without the AppsFlyer SDK and are adding the SDK on a later update.
- */
-@property BOOL isUpdate;
 
 /* 
  * AppsFLyer SDK collect Apple's advertisingIdentifier if the AdSupport framework included in the SDK.

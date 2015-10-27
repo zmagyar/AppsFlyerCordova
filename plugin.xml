@@ -20,8 +20,8 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="com.appsflyer.cordova.plugins.appsflyer"
-        version="1.0.0">
+        id="com.appsflyer.phonegap.plugins.appsflyer"
+        version="1.0.1">
     <name>AppsFlyer</name>
     <description>Cordova AppsFlyer Plugin</description>
     <license>Apache 2.0</license>
@@ -55,9 +55,10 @@
         </config-file>
 
         <source-file src="platform/android/com/appsflyer/cordova/plugin/AppsFlyerPlugin.java" target-dir="src/com/appsflyer/cordova/plugin" />
-        <source-file src="platform/android/libs/AF-Android-SDK-v2.3.1.12.jar" target-dir="libs"/>
+        <source-file src="platform/android/libs/AF-Android-SDK-v2.3.1.16.jar" target-dir="libs"/>
 
         <dependency id="com.google.playservices" url="https://github.com/MobileChromeApps/google-play-services" />
+
     </platform>
 
     <!-- ios -->
@@ -75,5 +76,7 @@
         <header-file src="platform/ios/AppsFlyerTracker.h" />
         <source-file src="platform/ios/AppsFlyerPlugin.m" />
         <source-file src="platform/ios/libAppsFlyerLib.a" compiler-flags="-lAppsFlyerLib" framework="true" />
+        <framework src="AdSupport.framework" weak="true" />
+        <framework src="iAd.framework" weak="true" />
     </platform>
 </plugin>
