@@ -38,16 +38,16 @@ if(!window.CustomEvent) {
 	AppsFlyer.prototype.onInstallConversionDataLoaded = function(conversionData) {
         var data = conversionData,
             event;
-        if (typeof data === "string") {
-	    try {
-		data = JSON.parse(conversionData);
-		event = new CustomEvent('onInstallConversionDataLoaded', {'detail': data});
-		global.document.dispatchEvent(event);
-    	    } catch (e) {
-		event = new CustomEvent('onInstallConversionDataError', {'detail': conversionData});
-		global.document.dispatchEvent(event);
+	    if (typeof data === "string") {
+		try {
+		    data = JSON.parse(conversionData);
+    		} catch (e) {
+		    data = conversionData;
+    		}
     	    }
-        }
+    	    event = new CustomEvent('onInstallConversionDataLoaded', {'detail': data});
+    	    global.document.dispatchEvent(event);
+
 	};
 
 	global.cordova.addConstructor(function() {
