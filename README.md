@@ -1,6 +1,6 @@
 
 
-# Cordova/PhoneGap AppsFlyer plugin for Android and iOS. 
+# Cordova/PhoneGap AppsFlyer plugin for Android and iOS. (v4.2.2)
 
 ## Supported Platforms
 
