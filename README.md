@@ -10,6 +10,11 @@
  `Cordova >= 4.3.x.`
 
 
+## Contains
+
+- AppsFlyer iOS SDK **v4.5.7**
+- AppsFlyer Android SDK **v4.6.0**
+
 
 ## Installation using CLI:
 ```
