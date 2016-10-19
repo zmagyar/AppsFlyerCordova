@@ -1,6 +1,6 @@
 
 
-# Cordova/PhoneGap AppsFlyer plugin for Android and iOS. (v4.2.2)
+# Cordova/PhoneGap AppsFlyer plugin for Android and iOS. (v4.2.3)
 
 ## Supported Platforms
 
@@ -12,7 +12,7 @@
 
 ## Contains
 
-- AppsFlyer iOS SDK **v4.5.7**
+- AppsFlyer iOS SDK **v4.5.9**
 - AppsFlyer Android SDK **v4.6.0**
 
 
@@ -152,13 +152,41 @@ document.addEventListener('onInstallConversionDataLoaded', function(e){
 
 API Methods
 ===================
-**`initSdk(options): void`**
+**`initSdk(options, onSuccess, onError): void`**
 
 initialize the SDK.
 
-| parameter   | type                        | description |
+| parameter   | type                        | description  |
 | ----------- |-----------------------------|--------------|
-| `options`   | `List`                      | |
+| `options`   | `Object`                    |   SDK configuration           |
+| `onSuccess` | `(message: string)=>void` | Success callback - called after successfull SDK initiation. (optional)|
+| `onError`   | `(message: string)=>void` | Error callback - called when error occurs during initialization. (optional)|
+
+**`options`**
+
+| name       | type    | default | description            |
+| -----------|-----------------------------|--------------|
+| `devKey`   |`string` |        |   [Appsflyer Dev key](https://support.appsflyer.com/hc/en-us/articles/207032126-AppsFlyer-SDK-Integration-Android)    |
+| `appId`    |`string` |        | [Apple Application ID](https://support.appsflyer.com/hc/en-us/articles/207032066-AppsFlyer-SDK-Integration-iOS) (for iOS only) |
+| `isDebug`  |`boolean`| `true` | debug mode (optional)|
+
+*Example:*
+
+```
+var onSuccess = function(result) {
+     //handle result
+};
+
+function onError(err) {
+    // handle error
+}
+var options = {
+               devKey:  'd3Ac9qPnrpVYZxfWmCspwL',
+               appId: '123456789',
+               isDebug: false
+             };
+window.plugins.appsFlyer.initSdk(options, onSuccess, onError);
+```
 
 **`setCurrencyCode(currencyId): void`**
 
