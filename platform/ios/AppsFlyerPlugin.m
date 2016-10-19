@@ -8,10 +8,16 @@ static NSString *const NO_DEVKEY_FOUND = @"No 'devKey' found or its empty";
 static NSString *const NO_APPID_FOUND  = @"No 'appId' found or its empty";
 static NSString *const SUCCESS         = @"Success";
 
-- (CDVPlugin *)initWithWebView:(UIWebView *)theWebView
+//  never called, use pluginInitialize instead
+//- (CDVPlugin *)initWithWebView:(UIWebView *)theWebView
+//{
+//    [self pluginInitialize];
+//    return self;
+//}
+
+- (void)pluginInitialize
 {
-    [self pluginInitialize];
-    return self;
+  [AppsFlyerTracker sharedTracker].delegate = self;
 }
 
 - (void)initSdk:(CDVInvokedUrlCommand*)command
@@ -56,7 +62,7 @@ static NSString *const SUCCESS         = @"Success";
     else{
         [AppsFlyerTracker sharedTracker].appleAppID = appId;
         [AppsFlyerTracker sharedTracker].appsFlyerDevKey = devKey;
-        [AppsFlyerTracker sharedTracker].delegate = self;
+       // [AppsFlyerTracker sharedTracker].delegate = self;  // moved to 'pluginInitialize'
         [AppsFlyerTracker sharedTracker].isDebug = isDebug;
         [[AppsFlyerTracker sharedTracker] trackAppLaunch];
         
