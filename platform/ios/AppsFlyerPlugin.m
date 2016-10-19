@@ -123,10 +123,14 @@ static NSString *const SUCCESS         = @"Success";
     }
 }
 
--(void) reportConversionData:(NSString *)data {
-    
-    [[super webViewEngine] evaluateJavaScript:[NSString stringWithFormat:@"javascript:window.plugins.appsFlyer.onInstallConversionDataLoaded(%@)", data] completionHandler:nil];
 
+//-(void) reportConversionData_old:(NSString *)data {
+//    [[super webViewEngine] evaluateJavaScript:[NSString stringWithFormat:@"javascript:window.plugins.appsFlyer.onInstallConversionDataLoaded(%@)", data] completionHandler:nil];
+//}
+
+-(void) reportConversionData:(NSString *)data {    
+    NSString *js = [NSString stringWithFormat:@"window.plugins.appsFlyer.onInstallConversionDataLoaded(%@)", data];
+    [self.commandDelegate evalJs:js];
 }
 
 -(void)onConversionDataRequestFailure:(NSError *) error {
