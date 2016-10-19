@@ -10,10 +10,10 @@
  `Cordova >= 4.3.x.`
 
 
-## Contains
+## This plugin is built for
 
-- AppsFlyer iOS SDK **v4.5.9**
-- AppsFlyer Android SDK **v4.6.0**
+- iOS AppsFlyerSDK **v4.5.9**
+- Android AppsFlyerSDK **v4.6.0**
 
 
 ## Installation using CLI:
@@ -165,8 +165,8 @@ initialize the SDK.
 **`options`**
 
 | name       | type    | default | description            |
-| -----------|-----------------------------|--------------|
-| `devKey`   |`string` |        |   [Appsflyer Dev key](https://support.appsflyer.com/hc/en-us/articles/207032126-AppsFlyer-SDK-Integration-Android)    |
+| -----------|---------|---------|------------------------|
+| `devKey`   |`string` |         |   [Appsflyer Dev key](https://support.appsflyer.com/hc/en-us/articles/207032126-AppsFlyer-SDK-Integration-Android)    |
 | `appId`    |`string` |        | [Apple Application ID](https://support.appsflyer.com/hc/en-us/articles/207032066-AppsFlyer-SDK-Integration-iOS) (for iOS only) |
 | `isDebug`  |`boolean`| `true` | debug mode (optional)|
 
