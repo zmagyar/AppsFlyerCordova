@@ -178,7 +178,7 @@ initialize the SDK.
 
 *Example:*
 
-```
+```javascript
 var onSuccess = function(result) {
      //handle result
 };
