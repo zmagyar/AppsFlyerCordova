@@ -17,6 +17,12 @@
 
 
 ## Installation using CLI:
+
+```
+$ cordova plugin add appsflyer
+```
+or directly from git:
+ 
 ```
 $ cordova plugin add https://github.com/AppsFlyerSDK/PhoneGap.git
 ```
