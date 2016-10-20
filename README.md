@@ -1,4 +1,4 @@
-
+<img src="https://www.appsflyer.com/wp-content/themes/ohav-child/images/logo.svg"  width="200">
 
 # Cordova/PhoneGap AppsFlyer plugin for Android and iOS. (v4.2.3)
 
@@ -22,7 +22,7 @@
 $ cordova plugin add appsflyer
 ```
 or directly from git:
- 
+
 ```
 $ cordova plugin add https://github.com/AppsFlyerSDK/PhoneGap.git
 ```
@@ -245,3 +245,8 @@ Tracking in-app events helps you measure and analyze how loyal users discover yo
 | parameter   | type                        | description |
 | ----------- |-----------------------------|--------------|
 | `conversionData` | `Object`                    |  |
+
+
+
+## Demos:
+We posted [af-cordova-ionic-demo](https://github.com/af-fess/af-cordova-ionic-demo) as separate repo in github, you can download and run it.
