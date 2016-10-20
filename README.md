@@ -248,5 +248,5 @@ Tracking in-app events helps you measure and analyze how loyal users discover yo
 
 
 
-## Demos:
+## Sample app:
 We posted [af-cordova-ionic-demo](https://github.com/af-fess/af-cordova-ionic-demo) as separate repo in github, you can download and run it.
