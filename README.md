@@ -254,9 +254,18 @@ window.plugins.appsFlyer.trackEvent(eventName, eventValues);
 
 ---
 
- Accessing AppsFlyer Attribution / Conversion Data from the SDK (Deferred Deep-linking). 
+**`onInstallConversionDataLoaded(conversionData): void`**
+
+Accessing AppsFlyer Attribution / Conversion Data from the SDK (Deferred Deep-linking). 
  Read more: [Android](http://support.appsflyer.com/entries/69796693-Accessing-AppsFlyer-Attribution-Conversion-Data-from-the-SDK-Deferred-Deep-linking-), [iOS](http://support.appsflyer.com/entries/22904293-Testing-AppsFlyer-iOS-SDK-Integration-Before-Submitting-to-the-App-Store-)  
 **Note:** AppsFlyer plugin will fire `onInstallConversionDataLoaded` event with attribution data. You must implement `onInstallConversionDataLoaded` listener to receive the data.
+
+
+| parameter   | type                        | description |
+| ----------- |-----------------------------|--------------|
+| `conversionData` | `Object`                    |  |
+
+ 
 
 *Example:*
 
@@ -266,14 +275,6 @@ document.addEventListener('onInstallConversionDataLoaded', function(e){
     alert(attributionData);
 }, false);
 ```
-
----
-
-**`onInstallConversionDataLoaded(conversionData): void`**
-
-| parameter   | type                        | description |
-| ----------- |-----------------------------|--------------|
-| `conversionData` | `Object`                    |  |
 
 
 ---
