@@ -1,5 +1,8 @@
 # Release Notes
 
+### 4.2.4 (Oct 26, 2016)
+* fixed README.md
+
 ### 4.2.3 (Oct 19, 2016)
 * added unitest for intSDK
 * changed initSDK API

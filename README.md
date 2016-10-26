@@ -1,6 +1,8 @@
 <img src="https://www.appsflyer.com/wp-content/themes/ohav-child/images/logo.svg"  width="200">
 
-# Cordova/PhoneGap AppsFlyer plugin for Android and iOS. (v4.2.3)
+# Cordova/PhoneGap AppsFlyer plugin for Android and iOS. (v4.2.4)
+
+
 
 ## Supported Platforms
 
@@ -66,98 +68,47 @@ Android: Copy `AppsFlyerPlugin.java` to `platforms/android/src/com/appsflyer/cor
 
 
 
-
 Add following lines to your code to be able to initialize tracking with your own AppsFlyer dev key:
 
 **for pure Cordova:**
 ```javascript
 document.addEventListener("deviceready", function(){
-    var args = [];
-    var devKey = "xxXXXXXxXxXXXXxXXxxxx8";   // your AppsFlyer devKey
-    args.push(devKey);
+    
+   var options = {
+             devKey:  'xxXXXXXxXxXXXXxXXxxxx8'// your AppsFlyer devKey               
+           };
+
     var userAgent = window.navigator.userAgent.toLowerCase();
                           
     if (/iphone|ipad|ipod/.test( userAgent )) {
-        var appId = "123456789";            // your ios app id in app store
-        args.push(appId);
+        options.appId = "123456789";            // your ios app id in app store        
     }
-    window.plugins.appsFlyer.initSdk(args);
+    window.plugins.appsFlyer.initSdk(options);
 }, false);
 ```
 
 **For Ionic**
 
 ```javascript
-  $ionicPlatform.ready(function() {       
+  $ionicPlatform.ready(function() {      
     
-    var args = [];
-    var devKey = "xxXXXXXxXxXXXXxXXxxxx8";   // your AppsFlyer devKey
-    args.push(devKey);
+    var options = {
+           devKey:  'xxXXXXXxXxXXXXxXXxxxx8'// your AppsFlyer devKey               
+         };
                               
     if (ionic.Platform.isIOS()) {
-        var appId = "123456789";            // your ios app id in app store
-        args.push(appId);
+        options.appId = "123456789";            // your ios app id in app store 
     }
 
-      window.plugins.appsFlyer.initSdk(args);   
-    
+      window.plugins.appsFlyer.initSdk(options);      
   });
 ```
 
 
-#### 2\. Set currency code (optional)
-```javascript
-//USD is default value. Acceptable ISO(http://www.xe.com/iso4217.php) Currency codes here. Examples:  
-//British Pound: window.plugins.appsFlyer.setCurrencyCode("GBP");  
-window.plugins.appsFlyer.setCurrencyCode("USD");
-```
-#### 3\. Set customer user ID (Advance)
-*Setting your own custom ID will enable you to cross-reference your own unique ID with AppsFlyer’s user ID and the 
-other devices’ IDs. This ID will be available at AppsFlyer CSV reports along with postbacks APIs for cross-referencing 
-with you internal IDs.*  
-**Note:** *The ID must be set during the first launch of the app at the SDK initialization. The best practice is to call to this API during `deviceready` event if possible.*
-```javascript
-window.plugins.appsFlyer.setAppUserId(userId);
-```
-#### 4\. In App Events Tracking API (optional)
-*These events help you track how loyal users discover your app and attribute them to specific campaign/source.*
-- *These in-app events help you track how loyal users discover your app, and attribute them to specific 
-campaigns/media-sources. Please take the time define the event/s you would like to measure to allow you 
-to track ROI (Return on Investment) and LTV (Lifetime Value).*
-- *The “trackEvent” method allows you to send in-app events to AppsFlyer analytics. This method allows you to 
-add events dynamically by adding them directly to the application code.*
-
-```javascript
-var eventName = "af_add_to_cart";
-var eventValues = {"af_content_id": "id123", "af_currency":"USD", "af_revenue": "2"};
-window.plugins.appsFlyer.trackEvent(eventName, eventValues);
-```
-#### 5\. Get AppsFlyer’s Unique Device UID (Advanced)
-*Get AppsFlyer’s proprietary device ID. AppsFlyer device ID is the main ID used by AppsFlyer in the Reports and API’s.*
-```javascript
-// getUserIdCallbackFn - callback function
-window.plugins.appsFlyer.getAppsFlyerUID(getUserIdCallbackFn);
-```
-###### Example:
-```javascript
-var getUserIdCallbackFn = function(id) {
-    alert('received id is: ' + id);
-}
-window.plugins.appsFlyer.getAppsFlyerUID(getUserIdCallbackFn);
-```
-#### 6\. Accessing AppsFlyer Attribution / Conversion Data from the SDK (Deferred 
-Deep-linking). Read more: [Android](http://support.appsflyer.com/entries/69796693-Accessing-AppsFlyer-Attribution-Conversion-Data-from-the-SDK-Deferred-Deep-linking-), [iOS](http://support.appsflyer.com/entries/22904293-Testing-AppsFlyer-iOS-SDK-Integration-Before-Submitting-to-the-App-Store-)  
-**Note:** AppsFlyer plugin will fire `onInstallConversionDataLoaded` event with attribution data. You must implement listener to receive the data.
-###### Example:
-```javascript
-document.addEventListener('onInstallConversionDataLoaded', function(e){
-    var attributionData = (JSON.stringify(e.detail));
-    alert(attributionData);
-}, false);
-```
-
 API Methods
 ===================
+---
+
 **`initSdk(options, onSuccess, onError): void`**
 
 initialize the SDK.
@@ -194,19 +145,43 @@ var options = {
 window.plugins.appsFlyer.initSdk(options, onSuccess, onError);
 ```
 
+---
+
 **`setCurrencyCode(currencyId): void`**
 
-| parameter   | type                        | description |
-| ----------- |-----------------------------|--------------|
-| `currencyId`   | `String`                      | |
+
+| parameter   | type                  | Default     | description |
+| ----------- |-----------------------|-------------|-------------|
+| `currencyId`| `String`              |   `USD`     |  [ISO 4217 Currency Codes](http://www.xe.com/iso4217.php)           |
+
+*Examples:*
+
+```javascript
+window.plugins.appsFlyer.setCurrencyCode("USD");
+window.plugins.appsFlyer.setCurrencyCode("GBP"); // British Pound
+```
+
+---
 
 **`setAppUserId(customerUserId): void`**
 
- set your Customer User ID.
+
+Setting your own custom ID will enable you to cross-reference your own unique ID with AppsFlyer’s user ID and the other devices’ IDs. This ID will be available at AppsFlyer CSV reports along with postbacks APIs for cross-referencing with you internal IDs.
+ 
+**Note:** The ID must be set during the first launch of the app at the SDK initialization. The best practice is to call to this API during `deviceready` event if possible.
+
 
 | parameter   | type                        | description |
 | ----------- |-----------------------------|--------------|
 | `customerUserId`   | `String`                      | |
+
+*Example:*
+
+```javascript
+window.plugins.appsFlyer.setAppUserId(userId);
+```
+---
+
 
 **`setGCMProjectID(GCMProjectID): void`**
 
@@ -224,21 +199,75 @@ AEnables tracking app. uninstalls.
 | ----------- |-----------------------------|--------------|
 | `token`   | `String`                      | |
 
-**`getAppsFlyerUID(successCB): void`**
+
+---
+
+**`getAppsFlyerUID(successCB): void`**  (Advanced)
+
+Get AppsFlyer’s proprietary device ID. AppsFlyer device ID is the main ID used by AppsFlyer in the Reports and API’s.
+
+```javascript
+function getUserIdCallbackFn(id){/* ... */} 
+window.plugins.appsFlyer.getAppsFlyerUID(getUserIdCallbackFn);
+```
+*Example:*
+
+```javascript
+var getUserIdCallbackFn = function(id) {
+    alert('received id is: ' + id);
+}
+window.plugins.appsFlyer.getAppsFlyerUID(getUserIdCallbackFn);
+```
 
 | parameter   | type                        | description |
 | ----------- |-----------------------------|--------------|
-| `successCB` | `() => void`                | Success callback |
+| `getUserIdCallbackFn` | `() => void`                | Success callback |
 
-**`trackEvent(eventName, eventValue): void`**
 
-Tracking in-app events helps you measure and analyze how loyal users discover your app, and attribute them to specific campaigns/media sources. It is recommended to take the time and define the events you want to measure to allow you to track ROI (Return on Investment) and LTV (Lifetime Value).
+---
+
+**`trackEvent(eventName, eventValues): void`** (optional)
+
+
+- These in-app events help you track how loyal users discover your app, and attribute them to specific 
+campaigns/media-sources. Please take the time define the event/s you would like to measure to allow you 
+to track ROI (Return on Investment) and LTV (Lifetime Value).
+- The `trackEvent` method allows you to send in-app events to AppsFlyer analytics. This method allows you to add events dynamically by adding them directly to the application code.
+
 
 | parameter   | type                        | description |
 | ----------- |-----------------------------|--------------|
-| `eventName` | `String`                    |  |
-| `eventValue` | `Object`                    |  |
+| `eventName` | `String`                    | custom event name, will be represented in your dashboard. Event list you can see [HERE](https://github.com/AppsFlyerSDK/PhoneGap/blob/master/platform/ios/AppsFlyerTracker.h)  |
+| `eventValue` | `Object`                    | event details |
 
+*Example:*
+
+```javascript
+var eventName = "af_add_to_cart";
+var eventValues = {
+           "af_content_id": "id123",
+           "af_currency":"USD",
+           "af_revenue": "2"
+           };
+window.plugins.appsFlyer.trackEvent(eventName, eventValues);
+```
+
+---
+
+ Accessing AppsFlyer Attribution / Conversion Data from the SDK (Deferred Deep-linking). 
+ Read more: [Android](http://support.appsflyer.com/entries/69796693-Accessing-AppsFlyer-Attribution-Conversion-Data-from-the-SDK-Deferred-Deep-linking-), [iOS](http://support.appsflyer.com/entries/22904293-Testing-AppsFlyer-iOS-SDK-Integration-Before-Submitting-to-the-App-Store-)  
+**Note:** AppsFlyer plugin will fire `onInstallConversionDataLoaded` event with attribution data. You must implement `onInstallConversionDataLoaded` listener to receive the data.
+
+*Example:*
+
+```javascript
+document.addEventListener('onInstallConversionDataLoaded', function(e){
+    var attributionData = (JSON.stringify(e.detail));
+    alert(attributionData);
+}, false);
+```
+
+---
 
 **`onInstallConversionDataLoaded(conversionData): void`**
 
@@ -247,6 +276,7 @@ Tracking in-app events helps you measure and analyze how loyal users discover yo
 | `conversionData` | `Object`                    |  |
 
 
+---
 
 ## Sample app:
 We posted [af-cordova-ionic-demo](https://github.com/af-fess/af-cordova-ionic-demo) as separate repo in github, you can download and run it.
