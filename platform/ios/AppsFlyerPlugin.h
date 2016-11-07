@@ -11,4 +11,13 @@
 - (void)onConversionDataReceived:(NSDictionary*) installData;
 - (void)onConversionDataRequestFailure:(NSError *) error;
 - (void)trackEvent:(CDVInvokedUrlCommand*)command;
+- (void)registerUninstall:(CDVInvokedUrlCommand*)command;
 @end
+
+
+
+
+// Appsflyer JS objects
+#define afDevKey @"devKey"
+#define afAppId @"appId"
+#define afIsDebug @"isDebug"
